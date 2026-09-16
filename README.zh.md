@@ -19,7 +19,7 @@
 |---|---|---|
 | 全网调研 | `skills/web-research-fanout` | 扇出 lane → claims 表 → 对抗 lane → 跨家族仲裁 → 反爬阶梯（L0–L4） |
 | 文档精读 | `skills/dual-read` | 两条独立通道读同一份文档 → 交叉比对（一致 / 增量 / 矛盾） |
-| 开发交付 | `skills/dev-delivery` | QA-first 验收清单 → 单写手 → 独立只读审查（只喂 diff）→ fail-closed 验收 → 修复回唯一写手 |
+| 开发交付 | `skills/dev-delivery` | QA-first 验收清单 → 单写手 → 独立只读审查（只喂 diff）→ fail-closed 验收 → 修复回唯一写手；文件互不相交的模块并行工作流 |
 | 视觉验收 | `agents/visual-judge.md` + `hooks/ui-screenshot-gate.mjs` | 渲染 → 截图 → 逐页判卷 → 修复 → 重渲染；机械 hook 拦住"没截图就说完成" |
 
 角色模板在 `agents/`：researcher / reviewer / worker-coder / visual-judge。
@@ -35,6 +35,7 @@
 - **干净上下文审查**：审查者只拿 diff + 需求，不喂会话历史。
 - **fail-closed 验收**：unknown 即未通过；空 diff 需显式豁免。
 - **finder ≠ fixer**：审查者只找不修，修复回唯一写手，单轮不递归。
+- **写手唯一是"每条工作流一个"**：文件互不相交的模块可拆成并行工作流——每条仍走完整闸门流程，集成归主会话。
 - **verification-before-completion**：没有新鲜运行输出，不许说"完成"。
 - **机械闸门 > 聪明提示词**：hook 的存在是因为光靠提示词管不住。
 

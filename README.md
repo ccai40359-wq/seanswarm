@@ -19,7 +19,7 @@ It covers four recurring scenarios:
 |---|---|---|
 | Web research | `skills/web-research-fanout` | fan-out lanes → claims table → adversarial lane → cross-family arbitration → anti-scrape ladder (L0–L4) |
 | Document reading | `skills/dual-read` | two independent channels read the same document, then cross-compare (match / addition / conflict) |
-| Dev delivery | `skills/dev-delivery` | QA-first acceptance list → single writer → independent read-only review (diff-only) → fail-closed acceptance → fixes go back to the single writer |
+| Dev delivery | `skills/dev-delivery` | QA-first acceptance list → single writer → independent read-only review (diff-only) → fail-closed acceptance → fixes go back to the single writer; disjoint modules run as parallel workstreams |
 | Visual acceptance | `agents/visual-judge.md` + `hooks/ui-screenshot-gate.mjs` | render → screenshot → per-page verdict → fix → re-render; a mechanical hook bounces "done" without screenshot evidence |
 
 Role templates live in `agents/`: `researcher`, `reviewer`, `worker-coder`, `visual-judge`.
@@ -35,6 +35,7 @@ Role templates live in `agents/`: `researcher`, `reviewer`, `worker-coder`, `vis
 - **Clean-context review.** The reviewer receives the diff + requirements — never the conversation history.
 - **Fail-closed acceptance.** "Unknown" counts as failed; an empty diff needs an explicit waiver.
 - **finder ≠ fixer.** The reviewer only finds; fixes go back to the single writer; one repair round, no recursion.
+- **One writer *per workstream*.** Modules whose files are disjoint run as parallel workstreams — each still goes through the full gated pipeline, and the main session owns integration.
 - **Verification before completion.** No "done" without fresh run output.
 - **Cheap gates beat clever prompts.** The mechanical hook exists because prose alone is not enforcement.
 

@@ -1,6 +1,6 @@
 ---
 name: dev-delivery
-description: Dev delivery orchestration — QA-first acceptance checklist → single writer implements (self-verified) → independent read-only review (diff-only input) → fail-closed acceptance → fixes go back to the writer → (visual gate for UI/PPT deliverables). MUST USE for multi-file coding tasks, code delivered for others to run, or changes needing independent acceptance; single-file scripts may use the lite path.
+description: Dev delivery orchestration — QA-first acceptance checklist → single writer implements (self-verified) → independent read-only review (diff-only input) → fail-closed acceptance → fixes go back to the writer → (visual gate for UI/PPT deliverables); multi-module tasks can run as parallel workstreams on disjoint files. MUST USE for multi-file coding tasks, code delivered for others to run, or changes needing independent acceptance; single-file scripts may use the lite path.
 ---
 
 # Dev Delivery
@@ -24,10 +24,27 @@ The checklist must be **frozen before** implementation; changing requirements mi
 
 ## 3. Single-writer implementation
 
-Dispatch **worker-coder**, one module at a time.
+Dispatch **worker-coder**, one module per dispatch. "One writer" is a **per-workstream** rule, not one writer for the whole project — independent workstreams may run in parallel (below).
 
 - **verification-before-completion**: run verification yourself (tests/command output) before reporting back; no fresh run output → you may not say "done".
 - Report format: files changed + run evidence + leftover risks.
+
+### Parallel workstreams (multi-module tasks)
+
+Two modules are independent workstreams when their file sets are disjoint. Then dispatch N worker-coders **in a single message** (so they run in parallel), each carrying its own slice of the frozen checklist.
+
+| Safe to parallelize | Keep as one workstream |
+|---|---|
+| separate directories / modules / projects | the same file (entry point, router, registry, `package.json`, lockfile) |
+| separate service boundaries behind a frozen interface | DB schema / migrations |
+| docs vs code, in separate files | shared i18n / config files |
+
+Rules:
+
+1. **Freeze the interface before dispatch** — function signatures, data shapes, file paths go into every dispatch note. A moving interface turns parallel work into rework.
+2. A shared file that must change is **its own workstream**: main session (or one writer) lands it first, the others build on the result.
+3. Each workstream runs the **same pipeline** end to end: QA-first checklist slice → writer self-verifies → diff-only review → fail-closed acceptance. Parallelism changes *how many writers run*, not *how each one is gated*.
+4. **Integration belongs to the main session**: merge, run the cross-module check, then re-run every workstream's acceptance items on the integrated tree — per-workstream review cannot see cross-module breakage.
 
 ## 4. Independent read-only review
 
