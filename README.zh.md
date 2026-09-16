@@ -1,5 +1,7 @@
 # seanswarm
 
+![seanswarm——面向编码 agent 的多智能体工作流技能包](assets/banner.png)
+
 **面向主流编码 agent 的轻量多智能体工作流技能包——Claude Code、Codex、Cursor、ZCode 等兼容宿主。**
 把编码 agent 变成一支受管的小团队：带证据治理的全网调研、双通道文档精读、带独立审查与视觉验收的开发交付。
 
@@ -21,6 +23,10 @@
 | 视觉验收 | `agents/visual-judge.md` + `hooks/ui-screenshot-gate.mjs` | 渲染 → 截图 → 逐页判卷 → 修复 → 重渲染；机械 hook 拦住"没截图就说完成" |
 
 角色模板在 `agents/`：researcher / reviewer / worker-coder / visual-judge。
+
+## 架构
+
+![seanswarm 架构一览](assets/architecture.png)
 
 ## 设计原则
 

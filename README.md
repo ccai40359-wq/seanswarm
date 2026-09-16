@@ -1,5 +1,7 @@
 # seanswarm
 
+![seanswarm — multi-agent workflow pack for coding agents](assets/banner.png)
+
 **A lightweight multi-agent workflow pack for mainstream coding agents — Claude Code, Codex, Cursor, ZCode, and other compatible hosts.**
 Turn your coding agent into a supervised small team: research fan-out with evidence governance, dual-channel document reading, and dev delivery with independent review and visual acceptance.
 
@@ -21,6 +23,10 @@ It covers four recurring scenarios:
 | Visual acceptance | `agents/visual-judge.md` + `hooks/ui-screenshot-gate.mjs` | render → screenshot → per-page verdict → fix → re-render; a mechanical hook bounces "done" without screenshot evidence |
 
 Role templates live in `agents/`: `researcher`, `reviewer`, `worker-coder`, `visual-judge`.
+
+## Architecture
+
+![seanswarm architecture at a glance](assets/architecture.png)
 
 ## Design principles
 
